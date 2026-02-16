@@ -1,8 +1,12 @@
 {
   "name": "status-badge-2",
   "version": "1.0.0",
-  "description": "Free forever status monitoring badges on Cloudflare Workers",
-  "main": "worker/index.js",
+  "description": "Free forever status monitoring badges - pure client-side",
+  "main": "badge.js",
+  "files": [
+    "badge.js",
+    "worker/"
+  ],
   "scripts": {
     "dev": "wrangler dev",
     "deploy": "wrangler publish",
@@ -11,9 +15,11 @@
   "keywords": [
     "status-badge",
     "uptime-monitoring",
+    "client-side",
     "cloudflare-workers",
     "serverless",
-    "monitoring"
+    "monitoring",
+    "zero-dependency"
   ],
   "license": "MIT",
   "devDependencies": {
