@@ -364,6 +364,9 @@ The badge caches status for 60 seconds. You can:
 
 | Project | Description | Stars |
 |---------|-------------|-------|
+| [badge-generator](https://github.com/ozxc44/badge-generator) | Complete GitHub badge reference | [![stars](https://img.shields.io/github/stars/ozxc44/badge-generator?style=social)](https://github.com/ozxc44/badge-generator/stargazers) |
+| [docuapi](https://github.com/ozxc44/docuapi) | API documentation generator | [![stars](https://img.shields.io/github/stars/ozxc44/docuapi?style=social)](https://github.com/ozxc44/docuapi/stargazers) |
+| [auto-promoter](https://github.com/ozxc44/auto-promoter) | Auto-promotion CLI tool | [![stars](https://img.shields.io/github/stars/ozxc44/auto-promoter?style=social)](https://github.com/ozxc44/auto-promoter/stargazers) |
 | [status-widget](https://github.com/ozxc44/status-widget) | Express-based status page with dashboard | [![stars](https://img.shields.io/github/stars/ozxc44/status-widget?style=social)](https://github.com/ozxc44/status-widget/stargazers) |
 | [cron-monitor](https://github.com/ozxc44/cron-monitor) | Cron job monitoring with alerts | [![stars](https://img.shields.io/github/stars/ozxc44/cron-monitor?style=social)](https://github.com/ozxc44/cron-monitor/stargazers) |
 | [queue-monitor](https://github.com/ozxc44/queue-monitor-dev) | Bull/BullMQ queue monitoring dashboard | [![stars](https://img.shields.io/github/stars/ozxc44/queue-monitor-dev?style=social)](https://github.com/ozxc44/queue-monitor-dev/stargazers) |
