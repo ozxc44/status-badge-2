@@ -14,6 +14,14 @@
 
 ---
 
+> **[Live Demo](https://ozxc44.github.io/status-badge-2/)** | **[GitHub](https://github.com/ozxc44/status-badge-2)**
+
+**Status Badge 2.0** is a **free uptime monitoring** badge service. Drop-in replacement for paid status badge SaaS.
+
+**Keywords:** `free uptime monitoring` | `status badge` | `uptime widget` | `serverless monitoring` | `cloudflare workers`
+
+---
+
 A drop-in status widget for your website or API. Just add one line of JavaScript, and you get a beautiful, real-time status badge showing:
 
 - ✅ Current status (Online/Offline) with animated pulse
