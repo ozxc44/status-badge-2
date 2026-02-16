@@ -1,12 +1,25 @@
 # Status Badge 2.0
 
+<div align="center">
+
 **Serverless status monitoring badge. Free forever on Cloudflare Workers.**
 
+[![stars](https://img.shields.io/github/stars/ozxc44/status-badge-2?style=social)](https://github.com/ozxc44/status-badge-2/stargazers)
+[![license](https://img.shields.io/badge/license-MIT-blue)](LICENSE)
+[![Cloudflare Workers](https://img.shields.io/badge/Cloudflare-Workers-orange)](https://workers.cloudflare.com/)
+
+[Live Demo](https://ozxc44.github.io/status-badge-2/) • [Quick Start](#quick-start) • [API Docs](#api-endpoints) • [Deployment](#deployment)
+
+</div>
+
+---
+
 A drop-in status widget for your website or API. Just add one line of JavaScript, and you get a beautiful, real-time status badge showing:
-- Current status (Online/Offline) with animated pulse
-- Response time
-- Uptime percentage (24h)
-- Branded "Monitoring by Status Badge" attribution
+
+- ✅ Current status (Online/Offline) with animated pulse
+- ⏱️ Response time
+- 📊 Uptime percentage (24h)
+- 🔗 Quick link to status history
 
 ## Why Status Badge 2.0?
 
@@ -16,6 +29,28 @@ A drop-in status widget for your website or API. Just add one line of JavaScript
 - **Shadow DOM** — Isolated styles won't break your site
 - **Edge-fast** — Global CDN, responses in <50ms
 - **No dependencies** — Pure JavaScript, no npm bloat
+
+## Preview
+
+### Light Mode
+Shows status indicator, response time, and uptime percentage:
+
+```
+┌────────────────────────────────────────────┐
+│ ● Online  • 45ms  • 99.9% uptime           │
+└────────────────────────────────────────────┘
+```
+
+### Dark Mode
+Automatically adapts to dark-themed websites:
+
+```
+┌────────────────────────────────────────────┐
+│ ● Online  • 45ms  • 99.9% uptime           │
+└────────────────────────────────────────────┘
+```
+
+> **🎨 Try the [Live Demo](https://ozxc44.github.io/status-badge-2/)** to see it in action!
 
 ## Quick Start
 
@@ -222,13 +257,131 @@ Specify when creating monitor:
 - **Rate Limiting** — Per-badge limits via KV
 - **No Sensitive Data** — Only public endpoint status stored
 
+## Use Cases
+
+| Scenario | How to Use |
+|----------|------------|
+| **API Status Page** | Monitor REST/GraphQL endpoints and show status on your docs |
+| **SaaS Dashboard** | Let customers see your service status without leaving your app |
+| **CI/CD Pipeline** | Show build/deployment status on your README or docs |
+| **Microservices** | Monitor multiple services from a single dashboard |
+| **Personal Projects** | Keep track of side projects, cron jobs, or scheduled tasks |
+
+## Examples
+
+### Example 1: Monitor a REST API
+
+```javascript
+// Create monitor
+await fetch('https://your-worker.workers.dev/api/monitors', {
+  method: 'POST',
+  headers: { 'Content-Type': 'application/json' },
+  body: JSON.stringify({
+    targetUrl: 'https://api.example.com/health',
+    name: 'My API'
+  })
+});
+
+// Returns: { id: 'abc123xy', embedUrl: 'https://...' }
+```
+
+### Example 2: Multiple Badges
+
+```html
+<!-- Monitor different services -->
+<script src="https://your-worker.workers.dev/v1/api-badge.js"></script>
+<script src="https://your-worker.workers.dev/v1/db-badge.js"></script>
+<script src="https://your-worker.workers.dev/v1/cache-badge.js"></script>
+```
+
+### Example 3: Custom Theme
+
+```javascript
+// Create with dark theme for dark websites
+await fetch('https://your-worker.workers.dev/api/monitors', {
+  method: 'POST',
+  headers: { 'Content-Type': 'application/json' },
+  body: JSON.stringify({
+    targetUrl: 'https://api.example.com/health',
+    name: 'My API',
+    theme: 'dark'  // 'default', 'dark', or 'minimal'
+  })
+});
+```
+
+### Example 4: JSON Integration
+
+```javascript
+// Get status data for custom display
+const response = await fetch('https://your-worker.workers.dev/v1/abc123xy.json');
+const data = await response.json();
+
+// {
+//   id: "abc123xy",
+//   config: { targetUrl: "...", name: "..." },
+//   status: { online: true, responseTime: 45, code: 200 },
+//   uptime: { percentage: 99.9, period: "24h" }
+// }
+
+// Build your own UI
+if (data.status.online) {
+  document.getElementById('status').textContent = `✓ Online (${data.status.responseTime}ms)`;
+} else {
+  document.getElementById('status').textContent = `✗ Offline (${data.status.error})`;
+}
+```
+
+## Troubleshooting
+
+### Badge not showing?
+1. Check browser console for errors
+2. Verify the worker URL is correct
+3. Ensure CORS is enabled (default: enabled)
+
+### Status always offline?
+1. Test your target URL: `curl https://your-api.com/health`
+2. Check that it returns HTTP 2xx status
+3. Verify no auth/CORS issues with the target
+
+### Want faster updates?
+The badge caches status for 60 seconds. You can:
+- Force a check: `fetch('/v1/ID/check')`
+- Reduce cache TTL in the worker code
+- Implement server-sent events for real-time updates
+
+## Roadmap
+
+- [ ] Webhook notifications (Slack, Discord, Email)
+- [ ] Historical status charts
+- [ ] Custom badge styling via URL params
+- [ ] Multi-region checks
+- [ ] Status page templates
+- [ ] Team collaboration features
+
+**Have a request?** [Open an issue](https://github.com/ozxc44/status-badge-2/issues)!
+
+## More from Auto Company
+
+| Project | Description | Stars |
+|---------|-------------|-------|
+| [status-widget](https://github.com/ozxc44/status-widget) | Express-based status page with dashboard | [![stars](https://img.shields.io/github/stars/ozxc44/status-widget?style=social)](https://github.com/ozxc44/status-widget/stargazers) |
+| [cron-monitor](https://github.com/ozxc44/cron-monitor) | Cron job monitoring with alerts | [![stars](https://img.shields.io/github/stars/ozxc44/cron-monitor?style=social)](https://github.com/ozxc44/cron-monitor/stargazers) |
+| [queue-monitor](https://github.com/ozxc44/queue-monitor-dev) | Bull/BullMQ queue monitoring dashboard | [![stars](https://img.shields.io/github/stars/ozxc44/queue-monitor-dev?style=social)](https://github.com/ozxc44/queue-monitor-dev/stargazers) |
+
+## Contributing
+
+Contributions welcome! Feel free to:
+1. Report bugs via [issues](https://github.com/ozxc44/status-badge-2/issues)
+2. Suggest features via [discussions](https://github.com/ozxc44/status-badge-2/discussions)
+3. Submit pull requests
+
 ## License
 
 MIT
 
 ## Author
 
-Auto Company — [https://auto-company.dev](https://auto-company.dev)
+Built by [Auto Company](https://github.com/ozxc44) — an autonomous AI company experimenting with serverless micro-SaaS products.
 
 ---
 
