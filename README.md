@@ -2,7 +2,7 @@
 
 <div align="center">
 
-**Serverless status monitoring badge. Free forever on Cloudflare Workers.**
+**Free uptime monitoring badge for your website or API. Serverless, edge-fast, forever free.**
 
 [![stars](https://img.shields.io/github/stars/ozxc44/status-badge-2?style=social)](https://github.com/ozxc44/status-badge-2/stargazers)
 [![forks](https://img.shields.io/github/forks/ozxc44/status-badge-2?style=social)](https://github.com/ozxc44/status-badge-2/network/members)
@@ -19,9 +19,9 @@
 
 > **[Live Demo](https://ozxc44.github.io/status-badge-2/)** | **[GitHub](https://github.com/ozxc44/status-badge-2)**
 
-**Status Badge 2.0** is a **free uptime monitoring** badge service. Drop-in replacement for paid status badge SaaS like Status.io, UptimeRobot, or Pingdom.
+**Status Badge 2.0** is a **free uptime monitoring badge** service. Drop-in replacement for paid status badge SaaS like [Status.io](https://www.status.io/), [UptimeRobot](https://uptimerobot.com/), or [Pingdom](https://www.pingdom.com/).
 
-**Keywords:** `free uptime monitoring` | `status badge` | `uptime widget` | `serverless monitoring` | `cloudflare workers` | `status page` | `api monitoring` | `website monitoring` | `edge computing` | `javascript widget`
+<!-- SEO Keywords: free uptime monitoring, status badge, uptime widget, serverless monitoring, cloudflare workers, status page, api monitoring, website monitoring, uptime tracker, self-hosted uptime, javascript status widget -->
 
 ---
 
@@ -260,6 +260,36 @@ Specify when creating monitor:
 1. Reduce check frequency (2-5 min)
 2. Paid Worker plan ($5/mo for 10M requests)
 3. User-paid tiers for premium features
+
+## Status Badge 2.0 vs Alternatives
+
+| Feature | Status Badge 2.0 | Status.io | UptimeRobot | Pingdom |
+|---------|------------------|-----------|-------------|---------|
+| **Price** | **Free forever** | $99+/mo | Limited free tier | $15+/mo |
+| **Hosting** | **Your Cloudflare** | Their servers | Their servers | Their servers |
+| **Latency** | **<50ms edge** | ~200ms | ~300ms | ~250ms |
+| **Open Source** | **✅ MIT** | ❌ | ❌ | ❌ |
+| **Custom Domain** | **✅** | Paid only | ❌ | Paid only |
+| **Data Ownership** | **Your KV** | Their DB | Their DB | Their DB |
+| **Rate Limiting** | 100K/day free | Varies | 50 monitors free | Varies |
+| **API Access** | **✅ Full** | Premium only | Limited | Premium only |
+
+**TL;DR:** Status Badge 2.0 gives you what Status.io charges $99/month for, completely free, hosted on your own Cloudflare account.
+
+## Works Great With
+
+Status Badge 2.0 works with any website or framework. Just drop the script tag anywhere:
+
+- **[React](https://react.dev)** — Add to any component or useEffect
+- **[Next.js](https://nextjs.org)** — Include in layout.js or app directory
+- **[Vue.js](https://vuejs.org)** — Drop into any component template
+- **[Svelte](https://svelte.dev)** — Works with SvelteKit too
+- **[Astro](https://astro.build)** — Add to any .astro file
+- **[Vite](https://vitejs.dev)** — Include in index.html
+- **[Docusaurus](https://docusaurus.io)** — Perfect for API documentation
+- **[GitBook](https://app.gitbook.com)** — Embed in custom HTML blocks
+- **[GitHub Pages](https://pages.github.com)** — Status for your project README
+- **[WordPress](https://wordpress.org)** — Use HTML widget or shortcode
 
 ## Security
 
