@@ -1,8 +1,25 @@
 # Status Badge 2.0
 
-> Free forever status monitoring on Cloudflare Workers
+> **Free forever status monitoring badges** — Serverless, on Cloudflare Workers
 
 Status badges shouldn't cost $15/month. Status Badge 2.0 runs on Cloudflare's free tier.
+
+[![Live Demo](https://img.shields.io/badge/demo-live_success?style=flat-square)](https://ozxc44.github.io/status-badge-2/)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg?style=flat-square)](https://opensource.org/licenses/MIT)
+
+---
+
+## What is Status Badge 2.0?
+
+A **serverless status monitoring badge** you can embed in any website:
+
+- 🚀 **One-line embed** — Just add a `<script>` tag
+- 💰 **Free forever** — Runs on Cloudflare Workers free tier (100K requests/day)
+- 🔒 **Style-safe** — Shadow DOM won't break your site's CSS
+- 📊 **Shows** — Uptime percentage + response time
+- 📦 **Zero deps** — Pure JavaScript, no bloat
+
+**Perfect for**: API status pages, service health dashboards, uptime monitoring badges.
 
 ## Features
 
@@ -52,6 +69,24 @@ User page → <script> badge → Worker → KV cache → Target API
 Most status badge services charge $15+/month for what's essentially a periodic ping.
 
 Cloudflare's free tier (100K requests/day) makes this trivial to run for free.
+
+---
+
+## Use Cases
+
+| Use Case | How |
+|----------|-----|
+| **API Status Page** | Show your API's uptime to users |
+| **Service Health Dashboard** | Monitor multiple services in one place |
+| **Personal Project Monitoring** | Track side projects without paying SaaS fees |
+| **Team Status Board** | Internal service visibility |
+| **README Badges** | Show service status in project documentation |
+
+---
+
+## Keywords
+
+status badge, status monitoring, uptime monitoring, Cloudflare Workers, serverless monitoring, free status page, API monitoring, status widget, status indicator, uptime badge, health check, status page, service monitoring
 
 ## License
 
