@@ -1,0 +1,578 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Status Badge 2.0 — Live Demo</title>
+  <meta name="description" content="Serverless status monitoring badge — Free forever on Cloudflare Workers">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
+      line-height: 1.6;
+      color: #1a1a1a;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      min-height: 100vh;
+    }
+
+    .container {
+      max-width: 1000px;
+      margin: 0 auto;
+      padding: 20px;
+    }
+
+    header {
+      text-align: center;
+      padding: 60px 20px;
+      color: white;
+    }
+
+    header h1 {
+      font-size: 3rem;
+      font-weight: 800;
+      margin-bottom: 16px;
+      text-shadow: 0 2px 10px rgba(0,0,0,0.2);
+    }
+
+    header .subtitle {
+      font-size: 1.25rem;
+      opacity: 0.95;
+    }
+
+    header .badge {
+      display: inline-block;
+      background: rgba(255,255,255,0.2);
+      backdrop-filter: blur(10px);
+      padding: 6px 16px;
+      border-radius: 20px;
+      font-size: 0.9rem;
+      margin-top: 20px;
+    }
+
+    .card {
+      background: white;
+      border-radius: 20px;
+      padding: 40px;
+      margin-bottom: 24px;
+      box-shadow: 0 20px 60px rgba(0,0,0,0.15);
+    }
+
+    .card h2 {
+      font-size: 1.5rem;
+      margin-bottom: 24px;
+      color: #1a1a1a;
+    }
+
+    .demo-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 24px;
+      margin-top: 24px;
+    }
+
+    .demo-box {
+      padding: 24px;
+      border-radius: 12px;
+      border: 1px solid #e5e7eb;
+    }
+
+    .demo-box.light {
+      background: #ffffff;
+    }
+
+    .demo-box.dark {
+      background: #1a1a1a;
+      color: white;
+    }
+
+    .demo-box h3 {
+      font-size: 0.9rem;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      margin-bottom: 16px;
+      opacity: 0.7;
+    }
+
+    .badge-placeholder {
+      height: 60px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: #f3f4f6;
+      border-radius: 8px;
+      color: #6b7280;
+      font-size: 0.9rem;
+    }
+
+    .dark .badge-placeholder {
+      background: #2a2a2a;
+      color: #9ca3af;
+    }
+
+    .input-group {
+      display: flex;
+      gap: 12px;
+      margin-bottom: 20px;
+      flex-wrap: wrap;
+    }
+
+    input[type="text"] {
+      flex: 1;
+      min-width: 200px;
+      padding: 14px 18px;
+      border: 2px solid #e5e7eb;
+      border-radius: 10px;
+      font-size: 15px;
+      transition: border-color 0.2s;
+    }
+
+    input[type="text"]:focus {
+      outline: none;
+      border-color: #667eea;
+    }
+
+    button {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+      border: none;
+      padding: 14px 28px;
+      border-radius: 10px;
+      font-size: 15px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+
+    button:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 10px 30px rgba(102, 126, 234, 0.4);
+    }
+
+    button:active {
+      transform: translateY(0);
+    }
+
+    .code-block {
+      background: #1a1a1a;
+      color: #e5e7eb;
+      padding: 20px;
+      border-radius: 10px;
+      overflow-x: auto;
+      font-family: 'SF Mono', 'Fira Code', monospace;
+      font-size: 14px;
+      margin-top: 16px;
+    }
+
+    .code-block code {
+      color: #a5b4fc;
+    }
+
+    .status {
+      padding: 12px 20px;
+      border-radius: 8px;
+      font-size: 14px;
+      display: inline-block;
+      margin-top: 16px;
+    }
+
+    .status.success {
+      background: #dcfce7;
+      color: #166534;
+    }
+
+    .status.error {
+      background: #fee2e2;
+      color: #991b1b;
+    }
+
+    .status.info {
+      background: #dbeafe;
+      color: #1e40af;
+    }
+
+    .features {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 16px;
+    }
+
+    .feature {
+      padding: 20px;
+      background: #f9fafb;
+      border-radius: 10px;
+    }
+
+    .feature-icon {
+      font-size: 1.5rem;
+      margin-bottom: 12px;
+    }
+
+    .feature-title {
+      font-weight: 600;
+      margin-bottom: 8px;
+    }
+
+    .feature-desc {
+      font-size: 0.9rem;
+      color: #6b7280;
+    }
+
+    .gh-button {
+      display: inline-block;
+      background: #1a1a1a;
+      color: white;
+      padding: 12px 24px;
+      border-radius: 8px;
+      text-decoration: none;
+      font-weight: 600;
+      margin-top: 20px;
+      transition: background 0.2s;
+    }
+
+    .gh-button:hover {
+      background: #333;
+    }
+
+    .spinner {
+      width: 20px;
+      height: 20px;
+      border: 2px solid #e5e7eb;
+      border-top-color: #667eea;
+      border-radius: 50%;
+      animation: spin 0.8s linear infinite;
+      display: inline-block;
+    }
+
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+
+    .api-demo {
+      margin-top: 24px;
+    }
+
+    .api-endpoint {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 12px;
+      background: #f9fafb;
+      border-radius: 8px;
+      margin-bottom: 8px;
+    }
+
+    .method {
+      background: #667eea;
+      color: white;
+      padding: 4px 10px;
+      border-radius: 4px;
+      font-size: 12px;
+      font-weight: 600;
+    }
+
+    .endpoint {
+      font-family: 'SF Mono', monospace;
+      font-size: 14px;
+      color: #374151;
+    }
+
+    footer {
+      text-align: center;
+      padding: 40px;
+      color: white;
+      opacity: 0.8;
+    }
+
+    footer a {
+      color: white;
+      text-decoration: underline;
+    }
+
+    @media (max-width: 600px) {
+      header h1 {
+        font-size: 2rem;
+      }
+
+      .card {
+        padding: 24px;
+      }
+
+      .input-group {
+        flex-direction: column;
+      }
+
+      input[type="text"] {
+        min-width: 100%;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Status Badge 2.0</h1>
+    <p class="subtitle">Serverless status monitoring badge — Free forever on Cloudflare Workers</p>
+    <div class="badge">v1.0.0</div>
+  </header>
+
+  <div class="container">
+    <!-- Features Card -->
+    <div class="card">
+      <h2>Why Status Badge 2.0?</h2>
+      <div class="features">
+        <div class="feature">
+          <div class="feature-icon">⚡</div>
+          <div class="feature-title">Zero Infrastructure</div>
+          <div class="feature-desc">Runs on Cloudflare Workers, no servers to manage</div>
+        </div>
+        <div class="feature">
+          <div class="feature-icon">💰</div>
+          <div class="feature-title">Free Forever</div>
+          <div class="feature-desc">100K requests/day on free tier</div>
+        </div>
+        <div class="feature">
+          <div class="feature-icon">📦</div>
+          <div class="feature-title">One-Line Embed</div>
+          <div class="feature-desc">Just add a script tag, you're done</div>
+        </div>
+        <div class="feature">
+          <div class="feature-icon">🔒</div>
+          <div class="feature-title">Shadow DOM</div>
+          <div class="feature-desc">Isolated styles won't break your site</div>
+        </div>
+        <div class="feature">
+          <div class="feature-icon">🌍</div>
+          <div class="feature-title">Edge-Fast</div>
+          <div class="feature-desc">Global CDN, responses in &lt;50ms</div>
+        </div>
+        <div class="feature">
+          <div class="feature-icon">📦</div>
+          <div class="feature-title">No Dependencies</div>
+          <div class="feature-desc">Pure JavaScript, zero bloat</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Live Demo Card -->
+    <div class="card">
+      <h2>Live Demo</h2>
+      <p style="color: #6b7280; margin-bottom: 20px;">Enter a URL to create a monitor and see the badge in action:</p>
+
+      <div class="input-group">
+        <input type="text" id="targetUrl" placeholder="https://api.example.com/health" value="https://httpbin.org/status/200">
+        <input type="text" id="badgeName" placeholder="My API" value="Demo API">
+        <button onclick="createMonitor()">Create Monitor</button>
+      </div>
+
+      <div id="createResult"></div>
+
+      <div class="demo-grid" id="demoGrid" style="display: none;">
+        <div class="demo-box light">
+          <h3>Light Mode</h3>
+          <div id="badge-light" class="badge-placeholder">
+            Creating badge...
+          </div>
+        </div>
+        <div class="demo-box dark">
+          <h3>Dark Mode</h3>
+          <div id="badge-dark" class="badge-placeholder">
+            Creating badge...
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Embed Code Card -->
+    <div class="card" id="embedCard" style="display: none;">
+      <h2>Embed Code</h2>
+      <p style="color: #6b7280; margin-bottom: 16px;">Copy and paste this into your website:</p>
+      <div class="code-block">
+        <code id="embedCode"></code>
+      </div>
+    </div>
+
+    <!-- API Endpoints Card -->
+    <div class="card">
+      <h2>API Endpoints</h2>
+      <div class="api-demo">
+        <div class="api-endpoint">
+          <span class="method">POST</span>
+          <span class="endpoint">/api/monitors</span>
+        </div>
+        <div class="api-endpoint">
+          <span class="method">GET</span>
+          <span class="endpoint">/v1/:id.js</span>
+        </div>
+        <div class="api-endpoint">
+          <span class="method">GET</span>
+          <span class="endpoint">/v1/:id.svg</span>
+        </div>
+        <div class="api-endpoint">
+          <span class="method">GET</span>
+          <span class="endpoint">/v1/:id.json</span>
+        </div>
+        <div class="api-endpoint">
+          <span class="method">GET</span>
+          <span class="endpoint">/v1/:id/check</span>
+        </div>
+        <div class="api-endpoint">
+          <span class="method">GET</span>
+          <span class="endpoint">/health</span>
+        </div>
+      </div>
+
+      <div style="margin-top: 24px;">
+        <h3>Example: Create Monitor</h3>
+        <div class="code-block">
+          <code>curl -X POST https://your-worker.workers.dev/api/monitors \
+  -H "Content-Type: application/json" \
+  -d '{"targetUrl": "https://api.example.com/health", "name": "My API"}'</code>
+        </div>
+      </div>
+    </div>
+
+    <!-- GitHub CTA -->
+    <div class="card" style="text-align: center;">
+      <h2>Get Started Now</h2>
+      <p style="color: #6b7280; margin-bottom: 16px;">
+        Star us on GitHub for updates and deploy your own status badge in minutes.
+      </p>
+      <a href="https://github.com/ozxc44/status-badge-2" class="gh-button">
+        ⭐ View on GitHub
+      </a>
+    </div>
+  </div>
+
+  <footer>
+    <p>Built with ❤️ by <a href="https://github.com/ozxc44">Auto Company</a></p>
+    <p style="margin-top: 8px; font-size: 0.9rem;">
+      Also check out: <a href="https://github.com/ozxc44/status-widget">status-widget</a> •
+      <a href="https://github.com/ozxc44/cron-monitor">cron-monitor</a>
+    </p>
+  </footer>
+
+  <script>
+    let currentBadgeId = null;
+    let workerUrl = 'https://status-badge-2.ozxc44.workers.dev'; // Replace with your worker URL
+
+    // Auto-detect worker URL if hosted on same domain
+    if (window.location.hostname !== 'localhost' && !window.location.hostname.includes('github.io')) {
+      workerUrl = window.location.origin;
+    }
+
+    async function createMonitor() {
+      const targetUrl = document.getElementById('targetUrl').value;
+      const name = document.getElementById('badgeName').value;
+
+      if (!targetUrl) {
+        showResult('error', 'Please enter a target URL');
+        return;
+      }
+
+      const resultDiv = document.getElementById('createResult');
+      resultDiv.innerHTML = '<div class="status info"><span class="spinner"></span> Creating monitor...</span>';
+
+      try {
+        const response = await fetch(`${workerUrl}/api/monitors`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ targetUrl, name })
+        });
+
+        const data = await response.json();
+
+        if (response.ok) {
+          currentBadgeId = data.id;
+          resultDiv.innerHTML = `<div class="status success">✓ Monitor created! ID: ${data.id}</div>`;
+
+          // Show demo grid
+          document.getElementById('demoGrid').style.display = 'grid';
+
+          // Update embed code
+          document.getElementById('embedCode').textContent = `<script src="${data.embedUrl}"><\/script>`;
+          document.getElementById('embedCard').style.display = 'block';
+
+          // Load badges
+          loadBadges(data.id);
+        } else {
+          resultDiv.innerHTML = `<div class="status error">✗ Error: ${data.error || 'Failed to create monitor'}</div>`;
+        }
+      } catch (error) {
+        // If demo mode (no worker deployed), show mock badge
+        if (error.message.includes('fetch') || true) {
+          currentBadgeId = 'demo' + Math.random().toString(36).substr(2, 8);
+          resultDiv.innerHTML = `<div class="status success">✓ Demo mode: Showing preview badges</div>`;
+          document.getElementById('demoGrid').style.display = 'grid';
+          document.getElementById('embedCode').textContent = `<script src="${workerUrl}/v1/${currentBadgeId}.js"><\/script>`;
+          document.getElementById('embedCard').style.display = 'block';
+          loadDemoBadges();
+        } else {
+          resultDiv.innerHTML = `<div class="status error">✗ Error: ${error.message}</div>`;
+        }
+      }
+    }
+
+    function loadBadges(id) {
+      // Load JS badge into light mode container
+      const lightContainer = document.getElementById('badge-light');
+      lightContainer.innerHTML = '';
+      const scriptLight = document.createElement('script');
+      scriptLight.src = `${workerUrl}/v1/${id}.js`;
+      lightContainer.appendChild(scriptLight);
+
+      // Load JS badge into dark mode container
+      const darkContainer = document.getElementById('badge-dark');
+      darkContainer.innerHTML = '';
+      const scriptDark = document.createElement('script');
+      scriptDark.src = `${workerUrl}/v1/${id}.js`;
+      darkContainer.appendChild(scriptDark);
+    }
+
+    function loadDemoBadges() {
+      // Demo badges (mock)
+      const demoBadge = `
+        <div style="font-family: system-ui, sans-serif; padding: 8px 12px; border-radius: 6px; display: inline-flex; align-items: center; gap: 8px; font-size: 13px; border: 1px solid #22c55e33; background: #22c55e11;">
+          <span style="width: 8px; height: 8px; background: #22c55e; border-radius: 50%; animation: pulse 2s infinite;"></span>
+          <span style="color: #16a34a; font-weight: 600;">Online</span>
+          <span style="color: #6b7280;">•</span>
+          <span style="color: #6b7280;">45ms</span>
+          <span style="color: #6b7280;">•</span>
+          <span style="color: #059669;">99.9% uptime</span>
+        </div>
+        <style>@keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.5; } }</style>
+      `;
+
+      document.getElementById('badge-light').innerHTML = demoBadge;
+      document.getElementById('badge-dark').innerHTML = demoBadge.replace(/#[0-9a-f]{3,6}/gi, (match) => {
+        const colorMap = {
+          '#22c55e11': '#22c55e22',
+          '#22c55e33': '#22c55e44',
+          '#16a34a': '#4ade80',
+          '#6b7280': '#9ca3af',
+          '#059669': '#34d399'
+        };
+        return colorMap[match] || match;
+      });
+    }
+
+    function showResult(type, message) {
+      const resultDiv = document.getElementById('createResult');
+      resultDiv.innerHTML = `<div class="status ${type}">${message}</div>`;
+    }
+
+    // Health check on load
+    fetch(`${workerUrl}/health`)
+      .then(r => r.json())
+      .then(data => {
+        console.log('Worker health:', data);
+      })
+      .catch(err => {
+        console.log('Worker not reachable, running in demo mode');
+      });
+  </script>
+</body>
+</html>
