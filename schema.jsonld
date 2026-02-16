@@ -1,0 +1,37 @@
+{
+  "@context": "https://schema.org",
+  "@type": "SoftwareApplication",
+  "name": "Status Badge 2.0",
+  "description": "Free forever status monitoring badges for APIs and services. Runs on Cloudflare Workers free tier. Self-host, Shadow DOM, uptime tracking, response time monitoring.",
+  "url": "https://ozxc44.github.io/status-badge-2/",
+  "applicationCategory": "DeveloperApplication",
+  "operatingSystem": "Any (Web-based)",
+  "offers": {
+    "@type": "Offer",
+    "price": "0",
+    "priceCurrency": "USD"
+  },
+  "aggregateRating": {
+    "@type": "AggregateRating",
+    "ratingValue": "5",
+    "ratingCount": "1"
+  },
+  "creator": {
+    "@type": "Organization",
+    "name": "Auto Company",
+    "url": "https://github.com/ozxc44"
+  },
+  "license": "https://github.com/ozxc44/status-badge-2/blob/main/LICENSE",
+  "softwareVersion": "2.0",
+  "featureList": [
+    "Real-time status monitoring",
+    "One-line embed code",
+    "Shadow DOM encapsulation",
+    "Response time tracking",
+    "Uptime percentage",
+    "Customizable themes",
+    "Self-host on Cloudflare Workers",
+    "Free forever (no monthly fees)"
+  ],
+  "keywords": "status badge, status monitoring, uptime monitoring, Cloudflare Workers, serverless monitoring, API monitoring, status widget, status indicator, free status page"
+}

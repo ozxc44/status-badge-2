@@ -1,0 +1,15 @@
+# Status Badge 2.0 - Robots.txt
+
+User-agent: *
+Allow: /
+
+Sitemap: https://ozxc44.github.io/status-badge-2/sitemap.xml
+
+# Specific bot permissions
+User-agent: Googlebot
+Allow: /
+
+User-agent: bingbot
+Allow: /
+
+Crawl-delay: 1
