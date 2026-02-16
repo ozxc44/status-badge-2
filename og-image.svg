@@ -1,0 +1,59 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#667eea"/>
+      <stop offset="100%" style="stop-color:#764ba2"/>
+    </linearGradient>
+    <filter id="shadow" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="4" stdDeviation="10" flood-opacity="0.3"/>
+    </filter>
+  </defs>
+
+  <!-- Background -->
+  <rect width="1200" height="630" fill="url(#bg)"/>
+
+  <!-- Decorative circles -->
+  <circle cx="100" cy="100" r="200" fill="rgba(255,255,255,0.05)"/>
+  <circle cx="1100" cy="530" r="250" fill="rgba(255,255,255,0.05)"/>
+
+  <!-- Main Content -->
+  <g text-anchor="middle" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif">
+    <!-- Title -->
+    <text x="600" y="200" font-size="72" font-weight="800" fill="white" filter="url(#shadow)">
+      Status Badge 2.0
+    </text>
+
+    <!-- Subtitle -->
+    <text x="600" y="260" font-size="28" font-weight="500" fill="rgba(255,255,255,0.95)">
+      Free uptime monitoring badge for your website or API
+    </text>
+
+    <!-- Status Badge Preview -->
+    <g transform="translate(600, 340)">
+      <rect x="-200" y="-30" width="400" height="60" rx="30" fill="rgba(255,255,255,0.2)" filter="url(#shadow)"/>
+      <circle cx="-150" cy="0" r="8" fill="#22c55e"/>
+      <text x="0" y="8" font-size="20" font-weight="600" fill="white">Serverless • Edge-Fast • Forever Free</text>
+    </g>
+
+    <!-- Feature Pills -->
+    <g transform="translate(600, 420)">
+      <g transform="translate(-220, 0)">
+        <rect x="-70" y="-20" width="140" height="40" rx="20" fill="rgba(255,255,255,0.15)"/>
+        <text x="0" y="7" font-size="16" font-weight="500" fill="white">⚡ Cloudflare Workers</text>
+      </g>
+      <g transform="translate(0, 0)">
+        <rect x="-60" y="-20" width="120" height="40" rx="20" fill="rgba(255,255,255,0.15)"/>
+        <text x="0" y="7" font-size="16" font-weight="500" fill="white">📦 One-Line Embed</text>
+      </g>
+      <g transform="translate(220, 0)">
+        <rect x="-55" y="-20" width="110" height="40" rx="20" fill="rgba(255,255,255,0.15)"/>
+        <text x="0" y="7" font-size="16" font-weight="500" fill="white">🔒 Shadow DOM</text>
+      </g>
+    </g>
+
+    <!-- URL -->
+    <text x="600" y="580" font-size="16" fill="rgba(255,255,255,0.8)">
+      github.com/ozxc44/status-badge-2
+    </text>
+  </g>
+</svg>
