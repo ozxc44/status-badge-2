@@ -1,0 +1,13 @@
+name = "status-badge-2"
+main = "worker/index.js"
+compatibility_date = "2024-01-01"
+
+# KV Namespace for caching (optional but recommended)
+# Run: wrangler kv namespace create STATUS_CACHE
+# Then add the binding ID below:
+# [[kv_namespaces]]
+# binding = "STATUS_CACHE"
+# id = "your-namespace-id"
+
+[vars]
+ENVIRONMENT = "production"

@@ -1,0 +1,11 @@
+# Node
+node_modules/
+
+# Wrangler
+.wrangler/
+.dev.vars
+
+# IDE
+.idea/
+.vscode/
+*.swp

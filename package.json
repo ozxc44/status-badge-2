@@ -1,0 +1,22 @@
+{
+  "name": "status-badge-2",
+  "version": "1.0.0",
+  "description": "Free forever status monitoring badges on Cloudflare Workers",
+  "main": "worker/index.js",
+  "scripts": {
+    "dev": "wrangler dev",
+    "deploy": "wrangler publish",
+    "deploy:kv": "wrangler publish && echo 'Remember to create KV namespace: wrangler kv namespace create STATUS_CACHE'"
+  },
+  "keywords": [
+    "status-badge",
+    "uptime-monitoring",
+    "cloudflare-workers",
+    "serverless",
+    "monitoring"
+  ],
+  "license": "MIT",
+  "devDependencies": {
+    "wrangler": "^3.0.0"
+  }
+}
