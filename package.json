@@ -1,0 +1,26 @@
+{
+  "name": "status-badge-2",
+  "version": "1.0.0",
+  "description": "Serverless status badge service on Cloudflare Workers. Zero dependencies, free tier forever.",
+  "main": "src/index.js",
+  "type": "module",
+  "scripts": {
+    "dev": "wrangler dev",
+    "deploy": "wrangler deploy",
+    "kv:create": "wrangler kv:namespace create STATUS",
+    "kv:list": "wrangler kv:key list --binding=STATUS",
+    "test": "echo \"No tests yet. Run: wrangler dev\""
+  },
+  "keywords": [
+    "status-badge",
+    "uptime-monitoring",
+    "cloudflare-workers",
+    "serverless",
+    "status-page"
+  ],
+  "author": "Auto Company",
+  "license": "MIT",
+  "devDependencies": {
+    "wrangler": "^3.0.0"
+  }
+}

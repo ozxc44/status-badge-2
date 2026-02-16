@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Status Badge 2.0 — Demo</title>
+  <style>
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 40px 20px;
+      background: #f9fafb;
+    }
+    h1 { color: #111827; margin-bottom: 8px; }
+    .subtitle { color: #6b7280; margin-bottom: 40px; }
+    .section {
+      background: white;
+      border-radius: 12px;
+      padding: 24px;
+      margin-bottom: 24px;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+    }
+    .section h2 { margin-top: 0; color: #111827; }
+    pre {
+      background: #1f2937;
+      color: #f3f4f6;
+      padding: 16px;
+      border-radius: 8px;
+      overflow-x: auto;
+      font-size: 13px;
+    }
+    code { font-family: 'SF Mono', Consolas, monospace; }
+    .demo-area {
+      display: flex;
+      gap: 20px;
+      flex-wrap: wrap;
+      margin: 20px 0;
+    }
+    .demo-item {
+      flex: 1;
+      min-width: 200px;
+      padding: 20px;
+      background: #f3f4f6;
+      border-radius: 8px;
+    }
+    .demo-item h3 { margin-top: 0; font-size: 14px; color: #6b7280; }
+    .badge-preview {
+      padding: 20px;
+      background: white;
+      border-radius: 8px;
+      border: 1px solid #e5e7eb;
+      margin-top: 12px;
+    }
+    .dark-mode {
+      background: #111827;
+      color: white;
+    }
+    .dark-mode .badge-preview {
+      background: #1f2937;
+      border-color: #374151;
+    }
+    button {
+      background: #3b82f6;
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 6px;
+      font-size: 14px;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+    button:hover { background: #2563eb; }
+    button:active { background: #1d4ed8; }
+    .input-group {
+      display: flex;
+      gap: 10px;
+      margin-bottom: 16px;
+    }
+    input[type="text"] {
+      flex: 1;
+      padding: 10px 14px;
+      border: 1px solid #d1d5db;
+      border-radius: 6px;
+      font-size: 14px;
+    }
+    .status {
+      padding: 8px 12px;
+      border-radius: 6px;
+      font-size: 13px;
+      display: inline-block;
+      margin-top: 10px;
+    }
+    .status.success { background: #dcfce7; color: #166534; }
+    .status.error { background: #fee2e2; color: #991b1b; }
+  </style>
+</head>
+<body>
+  <h1>Status Badge 2.0</h1>
+  <p class="subtitle">Serverless status monitoring badge — Demo Page</p>
+
+  <div class="section">
+    <h2>Create a Monitor</h2>
+    <div class="input-group">
+      <input type="text" id="targetUrl" placeholder="https://api.example.com/health" value="https://httpbin.org/status/200">
+      <input type="text" id="badgeName" placeholder="My API" value="Test API">
+      <button onclick="createMonitor()">Create</button>
+    </div>
+    <div id="createResult"></div>
+  </div>
+
+  <div class="section">
+    <h2>Badge Previews</h2>
+    <div class="demo-area">
+      <div class="demo-item">
+        <h3>Light Mode</h3>
+        <div class="badge-preview" id="badge-light">
+          <em style="color: #9ca3af;">Create a monitor to see the badge</em>
+        </div>
+      </div>
+      <div class="demo-item dark-mode">
+        <h3>Dark Mode</h3>
+        <div class="badge-preview" id="badge-dark">
+          <em style="color: #6b7280;">Create a monitor to see the badge</em>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <h2>Embed Code</h2>
+    <pre id="embedCode"><code>// Create a monitor to get embed code</code></pre>
+  </div>
+
+  <div class="section">
+    <h2>API Status</h2>
+    <button onclick="checkStatus()">Check Status</button>
+    <div id="statusResult"></div>
+  </div>
+
+  <script>
+    let currentBadgeId = null;
+    let baseUrl = window.location.origin;
+
+    async function createMonitor() {
+      const targetUrl = document.getElementById('targetUrl').value;
+      const name = document.getElementById('badgeName').value;
+
+      if (!targetUrl) {
+        showError('Please enter a target URL');
+        return;
+      }
+
+      const resultDiv = document.getElementById('createResult');
+      resultDiv.innerHTML = '<span class="status">Creating...</span>';
+
+      try {
+        const response = await fetch(`${baseUrl}/api/monitors`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ targetUrl, name })
+        });
+
+        const data = await response.json();
+
+        if (response.ok) {
+          currentBadgeId = data.id;
+          resultDiv.innerHTML = `<span class="status success">Created! ID: ${data.id}</span>`;
+
+          // Update embed code
+          document.getElementById('embedCode').innerHTML = `<code>&lt;script src="${data.embedUrl}"&gt;&lt;/script&gt;</code>`;
+
+          // Load badges
+          loadBadges(data.id);
+
+          // Update status button
+          document.getElementById('statusResult').innerHTML = `
+            <button onclick="forceCheck('${data.id}')">Force Check</button>
+            <div id="checkResult"></div>
+          `;
+        } else {
+          resultDiv.innerHTML = `<span class="status error">Error: ${data.error}</span>`;
+        }
+      } catch (error) {
+        resultDiv.innerHTML = `<span class="status error">Error: ${error.message}</span>`;
+      }
+    }
+
+    function loadBadges(id) {
+      // Load JS badge into light mode container
+      const lightContainer = document.getElementById('badge-light');
+      lightContainer.innerHTML = '';
+      const scriptLight = document.createElement('script');
+      scriptLight.src = `${baseUrl}/v1/${id}.js`;
+      lightContainer.appendChild(scriptLight);
+
+      // Load JS badge into dark mode container
+      const darkContainer = document.getElementById('badge-dark');
+      darkContainer.innerHTML = '';
+      const scriptDark = document.createElement('script');
+      scriptDark.src = `${baseUrl}/v1/${id}.js`;
+      darkContainer.appendChild(scriptDark);
+    }
+
+    async function checkStatus() {
+      if (!currentBadgeId) {
+        alert('Create a monitor first');
+        return;
+      }
+      await forceCheck(currentBadgeId);
+    }
+
+    async function forceCheck(id) {
+      const resultDiv = document.getElementById('checkResult');
+      resultDiv.innerHTML = 'Checking...';
+
+      try {
+        const response = await fetch(`${baseUrl}/v1/${id}/check`);
+        const data = await response.json();
+
+        resultDiv.innerHTML = `<pre><code>${JSON.stringify(data, null, 2)}</code></pre>`;
+      } catch (error) {
+        resultDiv.innerHTML = `<span class="status error">Error: ${error.message}</span>`;
+      }
+    }
+
+    function showError(message) {
+      alert(message);
+    }
+
+    // Health check on load
+    fetch(`${baseUrl}/health`)
+      .then(r => r.json())
+      .then(data => {
+        console.log('Health check:', data);
+      })
+      .catch(err => {
+        console.error('Health check failed:', err);
+      });
+  </script>
+</body>
+</html>
