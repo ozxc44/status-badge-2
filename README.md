@@ -5,8 +5,11 @@
 **Serverless status monitoring badge. Free forever on Cloudflare Workers.**
 
 [![stars](https://img.shields.io/github/stars/ozxc44/status-badge-2?style=social)](https://github.com/ozxc44/status-badge-2/stargazers)
+[![forks](https://img.shields.io/github/forks/ozxc44/status-badge-2?style=social)](https://github.com/ozxc44/status-badge-2/network/members)
 [![license](https://img.shields.io/badge/license-MIT-blue)](LICENSE)
 [![Cloudflare Workers](https://img.shields.io/badge/Cloudflare-Workers-orange)](https://workers.cloudflare.com/)
+<!-- <img src="https://img.shields.io/badge/HN-Front%20Page-orange" alt="Featured on Hacker News"> -->
+[![uptime monitoring](https://img.shields.io/badge/status-uptime%20monitoring-brightgreen)](https://ozxc44.github.io/status-badge-2/)
 
 [Live Demo](https://ozxc44.github.io/status-badge-2/) • [Quick Start](#quick-start) • [API Docs](#api-endpoints) • [Deployment](#deployment)
 
@@ -16,9 +19,9 @@
 
 > **[Live Demo](https://ozxc44.github.io/status-badge-2/)** | **[GitHub](https://github.com/ozxc44/status-badge-2)**
 
-**Status Badge 2.0** is a **free uptime monitoring** badge service. Drop-in replacement for paid status badge SaaS.
+**Status Badge 2.0** is a **free uptime monitoring** badge service. Drop-in replacement for paid status badge SaaS like Status.io, UptimeRobot, or Pingdom.
 
-**Keywords:** `free uptime monitoring` | `status badge` | `uptime widget` | `serverless monitoring` | `cloudflare workers`
+**Keywords:** `free uptime monitoring` | `status badge` | `uptime widget` | `serverless monitoring` | `cloudflare workers` | `status page` | `api monitoring` | `website monitoring` | `edge computing` | `javascript widget`
 
 ---
 

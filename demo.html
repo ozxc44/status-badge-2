@@ -319,6 +319,10 @@
     <div class="badge">v1.0.0</div>
   </header>
 
+  <!-- Analytics - Track demo visits for launch metrics -->
+  <script defer data-domain="status-badge-2.ozxc44.workers.dev" src="https://plausible.io/js/script.js"></script>
+  <script>window.plausible = window.plausible || function() { (window.plausible.q = window.plausible.q || []).push(arguments) }</script>
+
   <div class="container">
     <!-- Features Card -->
     <div class="card">
@@ -441,7 +445,7 @@
       <p style="color: #6b7280; margin-bottom: 16px;">
         Star us on GitHub for updates and deploy your own status badge in minutes.
       </p>
-      <a href="https://github.com/ozxc44/status-badge-2" class="gh-button">
+      <a href="https://github.com/ozxc44/status-badge-2" class="gh-button" onclick="plausible('GitHub Click')">
         ⭐ View on GitHub
       </a>
     </div>
@@ -488,6 +492,7 @@
         if (response.ok) {
           currentBadgeId = data.id;
           resultDiv.innerHTML = `<div class="status success">✓ Monitor created! ID: ${data.id}</div>`;
+          plausible('Monitor Created', { props: { targetUrl } });
 
           // Show demo grid
           document.getElementById('demoGrid').style.display = 'grid';
