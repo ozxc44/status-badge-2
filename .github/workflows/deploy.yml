@@ -1,0 +1,64 @@
+# Status Badge 2.0 — Deploy to Cloudflare Workers
+#
+# This workflow deploys the Worker to Cloudflare on every push to main branch.
+#
+# Required GitHub Secrets:
+#   - CLOUDFLARE_API_TOKEN: Cloudflare API Token with Workers Edit permission
+#   - CLOUDFLARE_ACCOUNT_ID: Your Cloudflare Account ID
+#
+# Setup instructions:
+#   1. Get API Token: https://dash.cloudflare.com/profile/api-tokens
+#      - Permissions: Workers Scripts (Edit)
+#   2. Get Account ID: https://dash.cloudflare.com -> Workers -> Overview
+#   3. Add secrets: gh secret set CLOUDFLARE_API_TOKEN && gh secret set CLOUDFLARE_ACCOUNT_ID
+
+name: Deploy to Cloudflare Workers
+
+on:
+  push:
+    branches: [main, master]
+  workflow_dispatch:
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    name: Deploy
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Create KV namespace
+        run: |
+          # Check if KV namespace exists
+          KV_LIST=$(npx wrangler kv namespace list 2>/dev/null || echo "[]")
+          echo "Existing KV namespaces: $KV_LIST"
+
+          # Try to create KV namespace (will fail if exists, that's ok)
+          npx wrangler kv namespace create STATUS || true
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+
+      - name: Deploy to Cloudflare Workers
+        run: npx wrangler deploy
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+
+      - name: Deployment summary
+        run: |
+          echo "## Deployment Successful! :rocket:" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "Your Worker is now live at:" >> $GITHUB_STEP_SUMMARY
+          echo "https://status-badge-2.YOUR_SUBDOMAIN.workers.dev" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "Replace YOUR_SUBDOMAIN with your actual subdomain." >> $GITHUB_STEP_SUMMARY
